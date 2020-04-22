@@ -2,18 +2,34 @@
 {% block content %}
     <section role="main" class="grid-x">
       <div class="medium-12 large-6 large-offset-3 cell">
-      	<img src="/images/{{tree._photo.filename}}">
-        <div class="meta">
-          {% if tree.species_name %}
-            <p>{{tree.species_name}}</p>
-          {% endif %}
-          {% if tree.place_name %}
-            <p>{{tree.place_name}}</p>
-          {% endif %}
-          {% if tree.month_name %}
-            <p>{{tree.month_name}}</p>
-          {% endif %}  
+        <div class="tree">
+        	<img src="/images/{{tree._photo.filename}}">
+          <div class="meta">
+            {% if tree.species_name %}
+              <p>{{tree.species_name}}</p>
+            {% endif %}
+            {% if tree.place_name %}
+              <p>{{tree.place_name}}</p>
+            {% endif %}
+            {% if tree.month_name %}
+              <p>{{tree.month_name}}</p>
+            {% endif %}  
+          </div>
         </div>
       </div>
     </section>
+    <nav>
+      <ul>
+        {% if previous_tree_id %}
+          <li>
+            <a href="/trees/{{previous_tree_id}}.html">Previous</a>    
+          </li>
+        {% endif %}
+        {% if next_tree_id %}
+          <li>
+            <a href="/trees/{{next_tree_id}}.html">Next</a>    
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
 {% endblock %}

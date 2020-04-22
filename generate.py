@@ -44,16 +44,27 @@ db = os.path.expanduser("~/Pictures/Photos Library.photoslibrary")
 photosdb = osxphotos.PhotosDB(db)
 photos = photosdb.photos(albums=["greatnorthwood"])
 
+counter = 0
 for photo in photos:
     image = Image.open(photo.path)
     cropped_image = crop_square(image)
-    cropped_image.save("%s/docs/images/%s" % (os.getcwd(), photo.filename))
+    cropped_image.save("%s/docs/images/%s" % (os.getcwd(), photo.filename),optimize=True,quality=95)
 
     ##tree page
+    previous_tree_id = None
+    next_tree_id = None
+    if counter > 0:
+        previous_tree_id = photos[counter-1].uuid
+    if counter < len(photos) - 1:
+        next_tree_id = photos[counter+1].uuid
+
+
     tree = models.Tree(photo)
     template = env.get_template('tree.html')
     with open("%s/docs/trees/%s.html" % (os.getcwd(), photo.uuid), "w") as file:
-        file.write(template.render(tree=tree))
+        file.write(template.render(tree=tree, previous_tree_id=previous_tree_id, next_tree_id=next_tree_id))
+
+    counter+=1
 
 ##index
 template = env.get_template('index.html')
